@@ -8,6 +8,7 @@ const App = function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
+        <p>TEST</p>
         <a
           className="App-link"
           href="https://reactjs.org"
