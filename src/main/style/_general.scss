@@ -1,0 +1,26 @@
+// color general
+
+$primary-color: #ffff;
+$button-color: #000066;
+$font-color: #000000;
+$background-color-secondary: #F5F5F5;
+$border-color: #333330;
+$background-header-color: #DCDCDC;
+$hover-color: #4169e1;
+
+// background color
+
+$bg-color-primary: $primary-color;
+$bg-color-secondary: $background-color-secondary;
+$bg-color-button-primary: $button-color;
+$bg-color-header: $background-header-color;
+$bg-color-hover: $hover-color;
+
+// border color
+
+$border-color-primary: $border-color;
+
+// font color:
+
+$font-color-primary: $font-color;
+$font-color-secondary: $primary-color;
