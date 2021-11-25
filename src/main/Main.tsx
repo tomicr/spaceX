@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Launch from './component/Launch';
 import useAllLaunches from './service/useAllLaunches';
+import { ILaunch } from './model/launchModel';
 
 const Main = function Main() {
   const { data: launches } = useAllLaunches();
@@ -24,9 +25,9 @@ const Main = function Main() {
           }
         >
           <ul className="main">
-            {launches.map((launch: any) => (
-              <Launch key={launch.mission_name} launch={launch} />
-            ))}
+            {launches.map((launch: ILaunch) => {
+              return <Launch key={launch.id} launch={launch} />;
+            })}
           </ul>
         </InfiniteScroll>
       )}

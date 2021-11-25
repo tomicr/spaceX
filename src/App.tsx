@@ -8,9 +8,7 @@ const App = function App() {
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
-        <div>
-          <Main />
-        </div>
+        <Main />
       </QueryClientProvider>
     </div>
   );
