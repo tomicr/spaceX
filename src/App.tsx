@@ -9,7 +9,10 @@ const App = function App() {
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
+<<<<<<< HEAD
         <Header />
+=======
+>>>>>>> bb6ec6af595ae1ae1a3f6e070add55e217ac25cf
         <Main />
       </QueryClientProvider>
     </div>
