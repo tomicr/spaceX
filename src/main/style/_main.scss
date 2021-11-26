@@ -1,9 +1,15 @@
 .main {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .input {
-    margin:100px;
-    height: 30px;
+  margin: 100px;
+  height: 30px;
+}
+
+@media only screen and (max-width: 900px) {
+  .main {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
