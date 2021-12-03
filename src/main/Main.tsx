@@ -1,39 +1,34 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
-/* eslint-disable camelcase */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/jsx-boolean-value */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { off } from 'process';
+import React, { useState, useRef, useCallback } from 'react';
 import Launch from './component/Launch';
 import useAllLaunches from './service/useAllLaunches';
-import { ILaunch } from './model/launchModel';
 import useDebounce from './customHook/useDebounce';
 
 const Main = function Main() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('');
-  const [offset, setOffset] = useState(0);
-  const [loading] = useState();
-  const { data: launches } = useAllLaunches(offset);
+  const {
+    data: launches,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+  } = useAllLaunches(20);
   const observer = useRef<IntersectionObserver>();
 
   const lastLaunchesElementRef = useCallback(
-    (node) => {
-      if (loading) return;
+    (node: any) => {
       if (observer) {
         if (observer.current) observer.current?.disconnect();
         observer.current = new IntersectionObserver((entries) => {
           if (entries[0].isIntersecting) {
-            setOffset((value) => value + 20);
+            if (isLoading || !hasNextPage) return;
+            fetchNextPage();
+            console.log('test');
           }
         });
         if (node) observer.current.observe(node);
       }
     },
-    [observer, loading, setOffset]
+    [fetchNextPage, isLoading]
   );
 
   useDebounce(() => {
@@ -52,7 +47,7 @@ const Main = function Main() {
         value={query}
         onChange={handleSearch}
       />
-      <div>{loading && 'Loading....'}</div>
+      {/* <div>{isLoading && 'Loading....'}</div>
       {launches && (
         <ul className="main">
           {launches?.pages.map((page, index) => (
@@ -70,7 +65,20 @@ const Main = function Main() {
             </React.Fragment>
           ))}
         </ul>
-      )}
+      )} */}
+      <ul className="main">
+        {isLoading ? (
+          <h1 className="text-white">Loading...</h1>
+        ) : (
+          launches?.pages.map((page) => {
+            return page.data.map((launch) => (
+              <div ref={lastLaunchesElementRef}>
+                <Launch key={launch.flight_number} launch={launch} />
+              </div>
+            ));
+          })
+        )}
+      </ul>
     </div>
   );
 };

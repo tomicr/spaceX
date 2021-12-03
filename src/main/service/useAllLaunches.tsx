@@ -1,13 +1,10 @@
-/* eslint-disable camelcase */
-/* eslint-disable radix */
-/* eslint-disable max-len */
 import { useInfiniteQuery } from 'react-query';
 import axios, { AxiosResponse } from 'axios';
 import { ILaunch } from '../model/launchModel';
 
 const fetchLaunches = ({ pageParam = { offset: 0, limit: 20, query: '' } }) => {
   const baseUrl: string =
-    `${process.env.REACT_APP_BASE_URL}launches?limit=${pageParam.limit}&offset=${pageParam.offset}&launch_year=${pageParam.query}` as string;
+    `${process.env.REACT_APP_BASE_URL}launches?limit=${pageParam.limit}&offset=${pageParam.offset}` as string;
   const response: Promise<AxiosResponse<ILaunch[]>> = axios.get(baseUrl);
   return response;
 };
@@ -19,7 +16,8 @@ const useAllLaunches = (offset: number, limit = 20) => {
     {
       getNextPageParam: (lastPage, allPages) => {
         const prevOffset = parseInt(
-          lastPage.request.responseURL.split('offset=')[1]
+          lastPage.request.responseURL.split('offset=')[1],
+          10
         );
         const maxCount = Number(allPages[0].headers['spacex-api-count']);
         const nextPageParams = { offset: prevOffset + offset, limit };
