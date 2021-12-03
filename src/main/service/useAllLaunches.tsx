@@ -2,15 +2,14 @@
 /* eslint-disable radix */
 /* eslint-disable max-len */
 import { useInfiniteQuery } from 'react-query';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { ILaunch } from '../model/launchModel';
 
-const fetchLaunches = ({
-  pageParam = { offset: 0, limit: 20, flight_year: 0 },
-}) => {
+const fetchLaunches = ({ pageParam = { offset: 0, limit: 20, query: '' } }) => {
   const baseUrl: string =
-    `${process.env.REACT_APP_BASE_URL}launches?limit=${pageParam.limit}&offset=${pageParam.offset}&filter&launch_year=${pageParam.flight_year}` as string;
-  return axios.get<ILaunch[]>(baseUrl);
+    `${process.env.REACT_APP_BASE_URL}launches?limit=${pageParam.limit}&offset=${pageParam.offset}&launch_year=${pageParam.query}` as string;
+  const response: Promise<AxiosResponse<ILaunch[]>> = axios.get(baseUrl);
+  return response;
 };
 
 const useAllLaunches = (offset: number, limit = 20) => {
@@ -18,20 +17,17 @@ const useAllLaunches = (offset: number, limit = 20) => {
     'launches',
     ({ pageParam }) => fetchLaunches({ pageParam }),
     {
-      // getNextPageParam: (lastPage) => {
-      //   const { page, total_pages: totalPages } = lastPage.launches;
-      //   return page < totalPages ? page + 1 : undefined;
-      // },
-      getNextPageParam: (lastPage, pages) => {
+      getNextPageParam: (lastPage, allPages) => {
         const prevOffset = parseInt(
-          lastPage.request.responseUrl.split('offset=')[1]
+          lastPage.request.responseURL.split('offset=')[1]
         );
-        const maxCount = Number(pages[0].headers['spacex-api-count']);
-        const getNextPageParams = { offset: prevOffset + offset, limit };
-        return prevOffset <= maxCount ? getNextPageParams : undefined;
+        const maxCount = Number(allPages[0].headers['spacex-api-count']);
+        const nextPageParams = { offset: prevOffset + offset, limit };
+        return prevOffset <= maxCount ? nextPageParams : undefined;
       },
     }
   );
+
   return { ...allLaunchesQuery };
 };
 
