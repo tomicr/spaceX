@@ -14,7 +14,7 @@ const Launch = function Launch({ launch }: { launch: ILaunch }) {
       <p className="title">{launch.mission_name} </p>
       <p className="date">{launch.launch_year} </p>
       <p className="details">{launch.details} </p>
-      <Link to={`/${launch.mission_name}`}>
+      <Link to={`/${launch.flight_number}`}>
         <button type="button" className="moreDetails">
           More Details
         </button>

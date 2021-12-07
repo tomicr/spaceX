@@ -1,18 +1,28 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import Launch from './component/Launch';
 import useAllLaunches from './service/useAllLaunches';
 import useDebounce from './customHook/useDebounce';
+import useFilterLaunch from './service/useFilterLaunch';
+import { ILaunch } from './model/launchModel';
 
 const Main = function Main() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('');
+  const [launchList, setLaunchList] = useState([]);
   const {
     data: launches,
     isLoading,
     fetchNextPage,
     hasNextPage,
   } = useAllLaunches(20);
+  const { data: filterLaunch } = useFilterLaunch(query);
   const observer = useRef<IntersectionObserver>();
+
+  useEffect(() => {
+    if (filterLaunch) {
+      setLaunchList((d: any) => d.concat(filterLaunch));
+    }
+  }, [filterLaunch]);
 
   const lastLaunchesElementRef = useCallback(
     (node: any) => {
@@ -33,6 +43,7 @@ const Main = function Main() {
 
   useDebounce(() => {
     setFilter(query);
+    setLaunchList([]);
   }, query);
 
   const handleSearch = (e: any) => {
@@ -45,39 +56,27 @@ const Main = function Main() {
         className="input"
         type="text"
         value={query}
+        placeholder="Enter year"
         onChange={handleSearch}
       />
-      {/* <div>{isLoading && 'Loading....'}</div>
-      {launches && (
-        <ul className="main">
-          {launches?.pages.map((page, index) => (
-            <React.Fragment key={index}>
-              {page.data.map((launch: ILaunch) => {
-                if (launches.pages.length === index + 1) {
-                  return (
-                    <div ref={lastLaunchesElementRef}>
-                      <Launch key={launch.flight_number} launch={launch} />
-                    </div>
-                  );
-                }
-                <Launch key={launch.flight_number} launch={launch} />;
-              })}
-            </React.Fragment>
-          ))}
-        </ul>
-      )} */}
       <ul className="main">
-        {isLoading ? (
-          <h1 className="text-white">Loading...</h1>
-        ) : (
+        {isLoading && <h1 className="text-white">Loading...</h1>}
+        {!query &&
           launches?.pages.map((page) => {
             return page.data.map((launch) => (
-              <div ref={lastLaunchesElementRef}>
-                <Launch key={launch.flight_number} launch={launch} />
+              <div key={launch.mission_name} ref={lastLaunchesElementRef}>
+                <Launch launch={launch} />
               </div>
             ));
-          })
-        )}
+          })}
+        {query.length === 4 &&
+          filterLaunch?.data.map((launch: ILaunch) => {
+            return (
+              <div key={launch.mission_name} ref={lastLaunchesElementRef}>
+                <Launch launch={launch} />
+              </div>
+            );
+          })}
       </ul>
     </div>
   );

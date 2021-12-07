@@ -15,7 +15,7 @@ const App = function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/:name" element={<MoreDetails />} />
+            <Route path="/:id" element={<MoreDetails />} />
           </Routes>
         </QueryClientProvider>
       </div>

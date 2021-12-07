@@ -14,13 +14,13 @@ const Header = function Header() {
   };
 
   const lightTheme = {
-    body: '#fff',
+    body: '#ffff',
     fontColor: '#000',
   };
 
   const darkTheme = {
     body: '#C0C0C0',
-    fontColor: '#fff',
+    fontColor: '#ffff',
   };
 
   return (
