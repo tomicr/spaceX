@@ -7,6 +7,7 @@ $background-color-secondary: #f5f5f5;
 $border-color: #333330;
 $background-header-color: #dcdcdc;
 $hover-color: #4169e1;
+$error-color: red;
 
 // background color
 
@@ -24,3 +25,4 @@ $border-color-primary: $border-color;
 
 $font-color-primary: $font-color;
 $font-color-secondary: $primary-color;
+$font-color-error: $error-color;

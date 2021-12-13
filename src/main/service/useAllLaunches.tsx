@@ -10,6 +10,7 @@ const fetchLaunches = ({ pageParam = { offset: 0, limit: 20 } }) => {
 };
 
 const useAllLaunches = (offset: number, limit = 20) => {
+  console.log('test');
   const allLaunchesQuery = useInfiniteQuery(
     'launches',
     ({ pageParam }) => fetchLaunches({ pageParam }),

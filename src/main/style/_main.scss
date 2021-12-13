@@ -12,6 +12,23 @@
     border-radius: 10px;
 }
 
+.logged-in {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.signOut {
+  background: transparent;
+  border: none;
+  color: blue;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 900px) {
   .main {
     grid-template-columns: repeat(1, 1fr);

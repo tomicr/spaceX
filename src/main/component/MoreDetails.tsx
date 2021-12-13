@@ -10,7 +10,7 @@ const MoreDetails = function MoreDetails() {
 
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate('/');
+    navigate('/allLaunches');
   };
   return (
     <div>
@@ -22,7 +22,7 @@ const MoreDetails = function MoreDetails() {
         <div>
           {launch.data.map((launchDetails) => {
             return (
-              <div className="wrapper-details">
+              <div className="wrapper-details" key={launchDetails.mission_name}>
                 <div className="card">
                   <img
                     src={launchDetails.links.mission_patch_small}
