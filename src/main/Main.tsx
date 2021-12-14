@@ -69,7 +69,7 @@ const Main = function Main() {
     setFilter(e.target.value);
   };
 
-  return (
+  return ( 
     <div>
       <div className="logged-in">
         User logged in : {user?.email}
