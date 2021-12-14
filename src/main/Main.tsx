@@ -25,10 +25,13 @@ const Main = function Main() {
   const navigate = useNavigate();
   const showData = filter ? filterLaunch?.data : launches?.pages;
 
-  onAuthStateChanged(auth, (currentUser) => {
-    return setUser(currentUser);
-  });
-
+  useEffect(() => {
+    const unsubscribe =  onAuthStateChanged(auth, (currentUser) => {
+      return setUser(currentUser);
+    });
+    return unsubscribe;
+  },[]);
+ 
   const signout = () => {
     signOut(auth);
     navigate('/');
@@ -82,7 +85,7 @@ const Main = function Main() {
         placeholder="Enter year"
         onChange={handleSearch}
       />
-      {/* <ul className="main">
+      <ul className="main">
         {isLoading && <h1 className="text-white">Loading...</h1>}
         {!query &&
           launches?.pages.map((page) => {
@@ -100,8 +103,8 @@ const Main = function Main() {
               </div>
             );
           })}
-      </ul> */}
-      {showData &&
+      </ul>
+      {/* {showData &&
         showData.map((launch: ILaunch) => {
           return (
             <div key={launch.mission_name}>
@@ -110,7 +113,7 @@ const Main = function Main() {
             </div>
           );
         })}
-      ;
+      ; */}
     </div>
   );
 };

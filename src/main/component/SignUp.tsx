@@ -7,6 +7,7 @@ import InputComponent from './InputComponent';
 const SignUp = function SignUp() {
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
+  const [confirmationPassword, setConfirmationPassword] = useState('');
   const [error, setError] = useState('');
   const passwordFormat =
     /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
@@ -15,6 +16,10 @@ const SignUp = function SignUp() {
   const navigate = useNavigate();
 
   const register = async () => {
+    if(registerEmail || registerPassword === "") {
+      setError('');
+      return setError("Fill the input field please!")
+    }
     if (!registerEmail.match(emailFormat)) {
       setError('');
       return setError('Invalid email format!');
@@ -24,6 +29,10 @@ const SignUp = function SignUp() {
       return setError(
         'Password has to be at least 7 characters long and contain at least one numeric digit and a special character.'
       );
+    }
+    if(!registerPassword.match(confirmationPassword)) {
+      setError('');
+      return setError('Passwords do not match');
     }
     try {
       const user = await createUserWithEmailAndPassword(
@@ -44,6 +53,20 @@ const SignUp = function SignUp() {
     }
     return register;
   };
+
+  const handleSubmitEmail = (e: any) => {
+    e.preventDefault();
+    setRegisterEmail(e.target.value);
+  };
+
+  const handleSubmitPass = (e: any) => {
+    e.preventDefault();
+    setRegisterPassword(e.target.value);
+  };
+  const handleConfirmPass = (e: any) => {
+    e.preventDefault();
+    setConfirmationPassword(e.target.value);
+  };
   return (
     <div>
       <form className="signUp-wrapper">
@@ -53,18 +76,20 @@ const SignUp = function SignUp() {
           className="signUp-input"
           placeholder="Enter email"
           type="email"
-          onChange={(event: any) => {
-            setRegisterEmail(event.target.value);
-          }}
+          onChange={handleSubmitEmail}
         />
         <p className="text-title">Password</p>
         <InputComponent
           placeholder="Enter password..."
           className="signUp-input"
           type="password"
-          onChange={(event: any) => {
-            setRegisterPassword(event.target.value);
-          }}
+          onChange={handleSubmitPass}
+        />
+         <InputComponent
+          placeholder="Confirm password..."
+          className="signUp-input"
+          type="password"
+          onChange={handleConfirmPass}
         />
         <button className="submit" type="submit" onClick={register}>
           Submit
