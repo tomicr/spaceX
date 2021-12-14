@@ -7,6 +7,7 @@ import InputComponent from './InputComponent';
 const LogIn = function LogIn() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [confrimPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const passwordFormat =
     /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
@@ -43,6 +44,20 @@ const LogIn = function LogIn() {
     }
     return login;
   };
+
+  const handleSubmitEmail = (e: any) => {
+    e.preventDefault();
+    setLoginEmail(e.target.value);
+  };
+
+  const handleSubmitPass = (e: any) => {
+    e.preventDefault();
+    setLoginPassword(e.target.value);
+  };
+  const handleConfirmPass = (e: any) => {
+    e.preventDefault();
+    setConfirmPassword(e.target.value);
+  };
   return (
     <div className="logIn-wrapper">
       <p className="logIn-title">Login</p>
@@ -50,17 +65,19 @@ const LogIn = function LogIn() {
       <InputComponent
         className="logIn-input"
         placeholder="Enter email"
-        onChange={(event: any) => {
-          setLoginEmail(event.target.value);
-        }}
+        onChange={handleSubmitEmail}
       />
       <p className="text-title">Password</p>
       <InputComponent
         className="logIn-input"
         placeholder="Enter password"
-        onChange={(event: any) => {
-          setLoginPassword(event.target.value);
-        }}
+        onChange={handleSubmitPass}
+      />
+      <p className="text-title">Confrim Password</p>
+      <InputComponent
+        className="logIn-input"
+        placeholder="Confirm password"
+        onChange={handleConfirmPass}
       />
       <button className="submit" type="submit" onClick={login}>
         Login

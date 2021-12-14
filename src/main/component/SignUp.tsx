@@ -16,10 +16,6 @@ const SignUp = function SignUp() {
   const navigate = useNavigate();
 
   const register = async () => {
-    if(registerEmail || registerPassword === "") {
-      setError('');
-      return setError("Fill the input field please!")
-    }
     if (!registerEmail.match(emailFormat)) {
       setError('');
       return setError('Invalid email format!');
@@ -30,7 +26,7 @@ const SignUp = function SignUp() {
         'Password has to be at least 7 characters long and contain at least one numeric digit and a special character.'
       );
     }
-    if(!registerPassword.match(confirmationPassword)) {
+    if (!registerPassword.match(confirmationPassword)) {
       setError('');
       return setError('Passwords do not match');
     }
@@ -85,7 +81,8 @@ const SignUp = function SignUp() {
           type="password"
           onChange={handleSubmitPass}
         />
-         <InputComponent
+        <p className="text-title">Confirm password</p>
+        <InputComponent
           placeholder="Confirm password..."
           className="signUp-input"
           type="password"

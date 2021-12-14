@@ -26,12 +26,11 @@ const Main = function Main() {
   const showData = filter ? filterLaunch?.data : launches?.pages;
 
   useEffect(() => {
-    const unsubscribe =  onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       return setUser(currentUser);
     });
     return unsubscribe;
-  },[]);
- 
+  }, []);
   const signout = () => {
     signOut(auth);
     navigate('/');
@@ -69,7 +68,7 @@ const Main = function Main() {
     setFilter(e.target.value);
   };
 
-  return ( 
+  return (
     <div>
       <div className="logged-in">
         User logged in : {user?.email}
