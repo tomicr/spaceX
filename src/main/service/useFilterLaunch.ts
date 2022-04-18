@@ -10,8 +10,14 @@ const fetchLaunch = (query: string) => {
 };
 
 const useFilterLaunch = (query: string) => {
-  const filterSearch = useQuery('launch', () => fetchLaunch(query));
-  return filterSearch;
+  const {
+    data: filterSearch,
+    error,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useQuery('launch', () => fetchLaunch(query));
+  return { filterSearch, error, isLoading, isError, isSuccess };
 };
 
 export default useFilterLaunch;

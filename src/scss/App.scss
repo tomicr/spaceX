@@ -1,9 +1,10 @@
 @import '../normalize.css';
 @import '../main/style/general';
 @import '../main/style/main';
-@import '../main/style/launch';
-@import '../main/style/header';
-@import '../main//style/moreDetails';
-@import '../main/style/signUp';
-@import '../main/style/logIn';
+@import '../main/component/Launch/launch';
+@import '../main/component/Navbar/navbar';
+@import '../main/component/MoreDetails/moreDetails';
+@import '../main/component/Signup/signUp';
+@import '../main/component/InputComponent/inputComponent';
+@import '../main/component/Login/logIn';
 @import 'antd/dist/antd.css';

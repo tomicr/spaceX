@@ -1,0 +1,38 @@
+.wrapper-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 50px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.name {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.text-style {
+  font-size: 18px;
+  align-self: center;
+}
+
+.launchDate {
+  font-size: 18px;
+  align-self: center;
+}
+
+.buttonBack {
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  padding: 10px;
+}
+
+@media only screen and (max-width: 900px) {
+  .wrapper-details {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

@@ -1,4 +1,4 @@
-.logIn-wrapper {
+.signUp-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,7 +11,7 @@
     margin-top: 50px;
 }
 
-.logIn-input {
+.signUp-input {
     width: 50%;
     height: 50px;
     border-radius: 3px;
@@ -20,7 +20,7 @@
     font-size: 18px;
 }
 
-.logIn-title {
+.signUp-title {
     font-size: 32px;
     font-weight: 700;
 }
@@ -50,15 +50,17 @@
     }
 }
 
-.input-class {
-    width: 100%;
-    margin-left: 50%;
+.log-in {
+    font-size: 18px;
+    font-weight: 500;
 }
+
 .error {
     color:$error-color;
 }
+
 @media only screen and (max-width: 900px) {
-    .logIn-wrapper {
+    .signUp-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;

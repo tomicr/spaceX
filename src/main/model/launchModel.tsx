@@ -12,6 +12,7 @@ export interface ILaunch {
   links: {
     mission_patch_small: string;
     video_link: string;
+    flickr_images: string[];
   };
   launch_site: {
     site_name_long: string;

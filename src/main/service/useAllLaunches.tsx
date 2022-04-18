@@ -4,13 +4,14 @@ import { ILaunch } from '../model/launchModel';
 
 const fetchLaunches = ({ pageParam = { offset: 0, limit: 20 } }) => {
   const baseUrl: string =
+    // eslint-disable-next-line max-len
     `${process.env.REACT_APP_BASE_URL}launches?limit=${pageParam.limit}&offset=${pageParam.offset}` as string;
   const response: Promise<AxiosResponse<ILaunch[]>> = axios.get(baseUrl);
   return response;
 };
 
 const useAllLaunches = (offset: number, limit = 20) => {
-  console.log('test');
+  // console.log('test');
   const allLaunchesQuery = useInfiniteQuery(
     'launches',
     ({ pageParam }) => fetchLaunches({ pageParam }),

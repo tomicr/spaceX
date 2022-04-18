@@ -1,45 +1,32 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { onAuthStateChanged, signOut, User } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
-import Launch from './component/Launch';
+import React, { useState, useRef, useCallback } from 'react';
+import Launch from './component/Launch/Launch';
 import useAllLaunches from './service/useAllLaunches';
 import useDebounce from './customHook/useDebounce';
 import useFilterLaunch from './service/useFilterLaunch';
 import { ILaunch } from './model/launchModel';
-import { auth } from '../firebase-config';
+import Logout from './component/Logout/Logout';
+import InputComponent from './component/InputComponent/InputComponent';
 
 const Main = function Main() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('');
-  const [launchList, setLaunchList] = useState([]);
+  // const [launchList, setLaunchList] = useState([]);
   const {
     data: launches,
     isLoading,
+    error,
+    isError,
     fetchNextPage,
     hasNextPage,
   } = useAllLaunches(20);
-  const { data: filterLaunch } = useFilterLaunch(query);
-  console.log('filter', filterLaunch);
+  const { filterSearch: filterLaunch } = useFilterLaunch(query);
+  // console.log('filter', filterLaunch);
   const observer = useRef<IntersectionObserver>();
-  const [user, setUser] = useState<User | null>();
-  const navigate = useNavigate();
-  const showData = filter ? filterLaunch?.data : launches?.pages;
+  // const showData = filter ? filterLaunch?.data : launches?.pages;
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      return setUser(currentUser);
-    });
-    return unsubscribe;
-  }, []);
-  const signout = () => {
-    signOut(auth);
-    navigate('/');
-  };
   // useEffect(() => {
-  //   if (filterLaunch) {
-  //     setLaunchList((d: any) => d.concat(filterLaunch));
-  //   }
-  // }, [filterLaunch]);
+  //   console.log(filter);
+  // }, [filter]);
 
   const lastLaunchesElementRef = useCallback(
     (node: any) => {
@@ -49,7 +36,7 @@ const Main = function Main() {
           if (entries[0].isIntersecting) {
             if (isLoading || !hasNextPage) return;
             fetchNextPage();
-            console.log('test');
+            // console.log('test');
           }
         });
         if (node) observer.current.observe(node);
@@ -68,23 +55,19 @@ const Main = function Main() {
     setFilter(e.target.value);
   };
 
+  if (isError) return <div> Error: {(error as Error)?.message}</div>;
+
   return (
     <div>
-      <div className="logged-in">
-        User logged in : {user?.email}
-        {'  '}{' '}
-        <button className="signOut" type="button" onClick={signout}>
-          Sign out
-        </button>
-      </div>
-      <input
+      <Logout />
+      <InputComponent
         className="input"
         type="text"
         value={filter}
-        placeholder="Enter year"
+        placeholder="Enter year..."
         onChange={handleSearch}
       />
-      <ul className="main">
+      <ul className="main" data-testid="launch">
         {isLoading && <h1 className="text-white">Loading...</h1>}
         {!query &&
           launches?.pages.map((page) => {

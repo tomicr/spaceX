@@ -2,11 +2,23 @@
 
 body {
   margin: 0;
-  font-family:'OpenSans', sans-serif;
+  font-family: 'OpenSans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family:'OpenSans', sans-serif;
+  font-family: 'OpenSans', sans-serif;
+}
+
+.darkTheme {
+  min-height: 100vh;
+  background-color: #c0c0c0;
+  color: white;
+}
+
+.lightTheme {
+  min-height: 100vh;
+  color: black;
+  background-color: #fff;
 }

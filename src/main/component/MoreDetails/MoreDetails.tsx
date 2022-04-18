@@ -1,23 +1,31 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
-import useLaunch from '../service/useLaunch';
-import backarrow from '../style/asetss/backarrow.png';
+import useLaunch from '../../service/useLaunch';
+import backarrow from '../../style/asetss/backarrow.png';
 
 const MoreDetails = function MoreDetails() {
-  const { id } = useParams();
-  const { data: launch, isLoading } = useLaunch(id);
-
-  const navigate = useNavigate();
+  type PathParams = {
+    id: string;
+  };
+  const { id } = useParams<PathParams>();
+  const { data: launch, isLoading, isError, error } = useLaunch(id);
+  const history = useHistory();
   const handleClick = () => {
-    navigate('/allLaunches');
+    history.push('/allLaunches');
   };
   return (
     <div>
+      {isLoading && (
+        <div>
+          <h1 className="text-white">Loading...</h1>
+        </div>
+      )}
+      {isError && <div> Error: {(error as Error)?.message}</div>}
       <button className="buttonBack" type="button" onClick={handleClick}>
         <img className="buttonBack" src={backarrow} alt="backButton" />
+        <strong> Back </strong>
       </button>
-      {isLoading && <h1 className="text-white">Loading...</h1>}
       {launch && (
         <div>
           {launch.data.map((launchDetails) => {
@@ -26,7 +34,7 @@ const MoreDetails = function MoreDetails() {
                 <div className="card">
                   <img
                     src={launchDetails.links.mission_patch_small}
-                    alt="launchImage"
+                    alt="launch"
                   />
                   <p className="name">{launchDetails.mission_name}</p>
                   <p className="text-style">{launchDetails.details}</p>
@@ -55,6 +63,20 @@ const MoreDetails = function MoreDetails() {
                       : ' Not Succesfull'}
                   </p>
                 </div>
+                {/* <div className="card">
+                  {launchDetails.links.flickr_images &&
+                    launchDetails.links.flickr_images.map((launchImg: any) => (
+                      <div>
+                        <img
+                          data-testid="gallery-img"
+                          src={launchImg}
+                          alt="launch"
+                          width="30px"    
+                          height="30px"
+                        />
+                      </div>
+                    ))}
+                </div> */}
               </div>
             );
           })}
